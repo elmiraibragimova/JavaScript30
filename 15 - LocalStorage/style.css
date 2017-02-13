@@ -78,6 +78,13 @@
     }
 
     .btn-container {
+      display: flex;
+      justify-content: space-between;
       margin-top: 10px;
       text-align: left;
+    }
+
+    .toggle-btn {
+      flex-grow: 1;
+      margin-left: 10px;
     }

@@ -23,8 +23,8 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
       <div class="btn-container">
-        <input type="button" value="Remove all" id='remove-btn'>
-        <input type="button" value="Check all" id="toggle-btn">
+        <input type="button" value="Remove all" class='remove-btn'>
+        <input type="button" value="Check all" class="toggle-btn">
       </div>
     </form>
   </div>
@@ -36,8 +36,8 @@
 
   let isAllItemsChecked;
 
-  const removeBtn = document.querySelector('#remove-btn');
-  const toggleBtn = document.querySelector('#toggle-btn');
+  const removeBtn = document.querySelector('.remove-btn');
+  const toggleBtn = document.querySelector('.toggle-btn');
 
   isAllChecked();
 
