@@ -23,8 +23,7 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
       <div class="btn-container">
-        <input type="button" value="Check all" id="check-btn">
-        <input type="button" value="Uncheck all" id="uncheck-btn">
+        <input type="button" value="Check all" id="toggle-btn">
       </div>
       <div class="btn-container">
         <input type="button" value="Remove all" id='remove-btn'>
@@ -37,7 +36,12 @@
   const itemsList = document.querySelector('.plates');
   let items = JSON.parse(localStorage.getItem('items')) || [];
 
+  let isAllItemsChecked;
+
   const removeBtn = document.querySelector('#remove-btn');
+  const toggleBtn = document.querySelector('#toggle-btn');
+
+  isAllChecked();
 
   function addItem(e) {
     e.preventDefault();
@@ -52,6 +56,17 @@
     populateList(items, itemsList);
     localStorage.setItem('items', JSON.stringify(items));
     this.reset();
+  }
+
+  function isAllChecked() {
+    isAllItemsChecked = items.every(item => item.done);
+    if (isAllItemsChecked) {
+      toggleBtn.value = 'Uncheck all';
+    } else {
+      toggleBtn.value = 'Check all';
+    }
+
+    console.log(isAllItemsChecked)
   }
 
   function populateList(plates = [], platesList) {
@@ -75,18 +90,42 @@
     items[index].done = !items[index].done;
     localStorage.setItem('items', JSON.stringify(items));
     populateList(items, itemsList);
+
+    isAllChecked();
   }
 
-  function removeList(e) {
+  function removeList() {
     items = [];
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  }
+
+  function toggleAllCheck() {
+    if (isAllItemsChecked) {
+      items.forEach(item => {
+        item.done = false;
+      });
+
+      toggleBtn.value = 'Check all';
+
+    } else {
+      items.forEach(item => {
+        item.done = true;
+      });
+
+      toggleBtn.value = 'Uncheck all';
+    }
+
+    isAllItemsChecked = !isAllItemsChecked;
+
     localStorage.setItem('items', JSON.stringify(items));
     populateList(items, itemsList);
   }
 
   addItems.addEventListener('submit', addItem);
   itemsList.addEventListener('click', toggleDone);
-
   removeBtn.addEventListener('click', removeList);
+  toggleBtn.addEventListener('click', toggleAllCheck);
 
   populateList(items, itemsList);
 
